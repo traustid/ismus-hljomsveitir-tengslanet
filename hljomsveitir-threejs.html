@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+<!--
+	<script src="//unpkg.com/3d-force-graph-vr@1"></script>
+
+	<script src="//unpkg.com/three-spritetext"></script>
+-->
+
+	<script src="js/3d-force-graph.min.js"></script>
+
+	<script src="js/three.js"></script>
+	<script src="js/three.textsprite.js"></script>
+	<script src="js/Tween.min.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/SpriteText.js"></script>
+	<script type="text/javascript" src="js/music-graph.js"></script>
+	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="theme-light">
+	<div id="3d-graph"></div>
+
+	<div class="graph-data">
+		<span id="graph-data-description"></span>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var graphOptions = {
+				textColor: '#555',
+				linkColor: '#000000',
+				useVR: false
+			};
+
+			var graph = new MusicGraph(document.getElementById("3d-graph"),
+				//'http://130.208.178.119:3011/ismus-neo4j/tonlist/tengslanet',
+				'http://beta.ismus.is/graph/tonlist/tengslanet',
+				graphOptions
+			);
+
+			/*
+			window.document.onclick = function(event) {
+				event.preventDefault();
+				var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2-1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+				graph.graph.projector.unprojectVector(vector, graph.graph.camera());
+				var raycaster = new THREE.Raycaster(graph.graph.camera().position, vector.sub(graph.graph.camera().position).normalize());
+				var intersects = raycaster.intersectObjects(graph.graph.textSprites);
+				if (intersects.length > 0) {
+					//window.open(intersects[0].object.userData.URL);
+					console.log(intersects.length)
+				}
+			};
+			*/
+
+			graph.onFetchComplete = function() {
+
+			};
+
+			graph.fetchData(5000);
+
+			var search = function() {
+				graph.flyToNode(graph.findNodeByName($('#searchInput').val()));
+			}
+
+			$('#searchInput').keydown(function(event) {
+				if (event.keyCode == 13) {
+					search();
+				}
+			});
+
+			$('#searchButton').click(function() {
+				search();
+			});
+		});
+
+	</script>
+
+	<div class="search-wrapper">
+		<div class="search-container">
+			<input id="searchInput" type="text" class="text-input" placeholder="Leit að hljómsveit eða tónlistarkonu/manni" />
+			<button id="searchButton" class="search-button"><span>Leita</span></button>
+		</div>
+	</div>
+
+	<div id="graphControls" style="display: none">
+		<button style="
+			position: fixed;
+
+			top: 20px;
+			left: 20px;
+
+			padding: 8px 10px;
+
+			border: 1px solid #000;
+			border-radius: 3px;
+
+			background: #333;
+
+			color: #fff;
+
+		" onclick="graph.startAutoFlight(40000, {
+				minConnections: 2,
+				highlightNode: false,
+				highlightConnections: false,
+				distance: 180,
+				pauseInterval: 500
+			})">Flug</button>
+		<button style="
+			position: fixed;
+
+			top: 20px;
+			left: 80px;
+
+			padding: 8px 10px;
+
+			border: 1px solid #000;
+			border-radius: 3px;
+
+			background: #333;
+
+			color: #fff;
+
+		" onclick="graph.stopAutoFlight()">Stoppa flug</button>
+	</div>
+
+</body>
