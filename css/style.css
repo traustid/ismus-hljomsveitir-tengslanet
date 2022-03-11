@@ -396,3 +396,21 @@ body.hide-cursor {
 .search-wrapper .search-container .search-button span {
   display: none;
 }
+.info-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  width: 800px;
+  max-width: 90vw;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px #00000054;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+.info-panel a {
+  color: #bf7c1a;
+  text-decoration: none;
+}
