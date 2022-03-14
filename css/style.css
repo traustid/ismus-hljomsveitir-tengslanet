@@ -359,7 +359,7 @@ body.hide-cursor {
   right: 0;
   height: 100px;
   padding-top: 28px;
-  background: #e5e5e5ad;
+  background: #e5e5e5f7;
   box-sizing: border-box;
 }
 .search-wrapper .search-container {
@@ -413,4 +413,9 @@ body.hide-cursor {
 .info-panel a {
   color: #bf7c1a;
   text-decoration: none;
+}
+.logo {
+  float: left;
+  max-width: 120px;
+  margin: -5px 10px 0 30px;
 }
